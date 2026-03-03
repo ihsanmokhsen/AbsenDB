@@ -1,0 +1,163 @@
+export type Department = "ASET 1" | "ASET 2" | "PENDAPATAN 1" | "PENDAPATAN 2" | "SEKRETARIAT";
+
+export interface Employee {
+  id: string;
+  name: string;
+  department: Department;
+}
+
+export const employees: Employee[] = [
+  // =======================
+  // ASET 1
+  // =======================
+  { id: "a1-001", name: "Sany H. Tetmilay, SE.Ak, M.Acc", department: "ASET 1" },
+  { id: "a1-002", name: "Firminus Kapitan, S.STP", department: "ASET 1" },
+  { id: "a1-003", name: "Lambertus Buda, S.Sos", department: "ASET 1" },
+  { id: "a1-004", name: "Jacobus Makin, ST., M.Ec.Dev.", department: "ASET 1" },
+  { id: "a1-005", name: "Maryam Aras, S.Sos", department: "ASET 1" },
+  { id: "a1-006", name: "Marcel F. Elim, ST", department: "ASET 1" },
+  { id: "a1-007", name: "Sandra A. Suratama, SE., MM", department: "ASET 1" },
+  { id: "a1-008", name: "Alfret D. I. Tunliu, S.Kom", department: "ASET 1" },
+  { id: "a1-009", name: "Andreas A. Sabi, S.STP", department: "ASET 1" },
+  { id: "a1-010", name: "Florinda da Costa Soares", department: "ASET 1" },
+  { id: "a1-011", name: "Nadya Centini H. Koso, S.Tr.Ak", department: "ASET 1" },
+  { id: "a1-012", name: "Patrisiana N. Kire Herin, S.Tr.Ak", department: "ASET 1" },
+  { id: "a1-013", name: "Miryanti Kewahe Tokan, S.Pd (PPPK)", department: "ASET 1" },
+  { id: "a1-014", name: "Muhammad Ichsan Eke, SH (PPPK)", department: "ASET 1" },
+  { id: "a1-015", name: "Irenius Angky Amaina, SH (PPPK)", department: "ASET 1" },
+  { id: "a1-016", name: "Eka Triyanti Lehilaka, SE (PPPK)", department: "ASET 1" },
+  { id: "a1-017", name: "Eben C. Foenay (PPPK)", department: "ASET 1" },
+  { id: "a1-018", name: "Olga Adhe F. Pandie (PPPK)", department: "ASET 1" },
+  { id: "a1-019", name: "Ardimelek Lona (PPPK)", department: "ASET 1" },
+
+  // =======================
+  // ASET 2
+  // =======================
+  { id: "a2-001", name: "Drs. Dominikus D. Payong, MA", department: "ASET 2" },
+  { id: "a2-002", name: "Natalia Th. F. Saba, S.Sos., MM", department: "ASET 2" },
+  { id: "a2-003", name: "Yus Ressie, SH", department: "ASET 2" },
+  { id: "a2-004", name: "Maria Indah Imakulata, S.Sos", department: "ASET 2" },
+  { id: "a2-005", name: "Isidorus C. Tolan Pari, SE., MM", department: "ASET 2" },
+  { id: "a2-006", name: "Jori Bawa, SE", department: "ASET 2" },
+  { id: "a2-007", name: "Ariesta Theresia Tokan, SE", department: "ASET 2" },
+  { id: "a2-008", name: "Novita Adris Passu, A.Md", department: "ASET 2" },
+  { id: "a2-009", name: "Semapritu Ndaomanu", department: "ASET 2" },
+  { id: "a2-010", name: "Don G. E. da Costa, ST., MM (PPPK)", department: "ASET 2" },
+  { id: "a2-011", name: "Andreas H. Belang, S.Kom (PPPK)", department: "ASET 2" },
+  { id: "a2-012", name: "Alfred Malaikari, SH (PPPK)", department: "ASET 2" },
+  { id: "a2-013", name: "Anselmus D. Sanga, S.Kom (PPPK)", department: "ASET 2" },
+  { id: "a2-014", name: "Astrid Katty B. Koreh (PPPK)", department: "ASET 2" },
+  { id: "a2-015", name: "Yahya Libing (PPPK)", department: "ASET 2" },
+  { id: "a2-016", name: "Marianus Ribu Kelen (PPPK)", department: "ASET 2" },
+  { id: "a2-017", name: "Vega N. Mudin (PPPK)", department: "ASET 2" },
+
+  // =======================
+  // PENDAPATAN 1
+  // =======================
+  { id: "p1-001", name: "Oktavianus Mare, SS", department: "PENDAPATAN 1" },
+  { id: "p1-002", name: "Maria Y. D. Hendrayani, S.ST", department: "PENDAPATAN 1" },
+  { id: "p1-003", name: "France F. G. Naibobe, S.STP., MM", department: "PENDAPATAN 1" },
+  { id: "p1-004", name: "Yohanes Nahak, S.Kom., MT", department: "PENDAPATAN 1" },
+  { id: "p1-005", name: "Hilaria de Jesus Mendes, SH", department: "PENDAPATAN 1" },
+  { id: "p1-006", name: "Maria Ivoni T. Lina, ST", department: "PENDAPATAN 1" },
+  { id: "p1-007", name: "Marryquest B. Edison, SE., MM", department: "PENDAPATAN 1" },
+  { id: "p1-008", name: "Luh Astiti Ariati, S.Ak", department: "PENDAPATAN 1" },
+  { id: "p1-009", name: "Benny E. B. Foenay", department: "PENDAPATAN 1" },
+  { id: "p1-010", name: "Arsena Marshal Adu, S.Sos", department: "PENDAPATAN 1" },
+  { id: "p1-011", name: "Vinitria Cornelia Manehat, S.Kom", department: "PENDAPATAN 1" },
+  { id: "p1-012", name: "Louis Adrian Lonis, S.Kom", department: "PENDAPATAN 1" },
+  { id: "p1-013", name: "Felipus Yanuar K. A. Muni, S.Kom", department: "PENDAPATAN 1" },
+  { id: "p1-014", name: "Jessica S. Ang Djadi, S.Kom", department: "PENDAPATAN 1" },
+  { id: "p1-015", name: "Adriana Medah, SH (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-016", name: "Yuliana M. P. Jong Joko, S.Sos (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-017", name: "Kenny Adrian M. Langgar, ST (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-018", name: "Jovian Raymond Lico, SE (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-019", name: "Maria Elisabeth Nay, ST (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-020", name: "Lidya Banunaek, SE (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-021", name: "Aritanto S. Hayong, SE (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-022", name: "Christina M. Triyanti, SE (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-023", name: "Abednego D. Imanuel Ena (PPPK)", department: "PENDAPATAN 1" },
+  { id: "p1-024", name: "Yuliana M. G. Mau (PPPK)", department: "PENDAPATAN 1" },
+
+  // =======================
+  // PENDAPATAN 2
+  // =======================
+  { id: "p2-001", name: "Lusia Fransiska Tiwe, ST", department: "PENDAPATAN 2" },
+  { id: "p2-002", name: "Karel Eben Umbu Kaballu, S.STP", department: "PENDAPATAN 2" },
+  { id: "p2-003", name: "Rolinda Inneke Foenay, S.Kom", department: "PENDAPATAN 2" },
+  { id: "p2-004", name: "Kefi Z. M. Taku Bessi, SE., MM", department: "PENDAPATAN 2" },
+  { id: "p2-005", name: "Antonius Fuka, S.Sos", department: "PENDAPATAN 2" },
+  { id: "p2-006", name: "Fransiska Devy S. Lorang, S.IP", department: "PENDAPATAN 2" },
+  { id: "p2-007", name: "Erich Alfaredo Boro, SE", department: "PENDAPATAN 2" },
+  { id: "p2-008", name: "Adelbertus Lamahoda, A.Md", department: "PENDAPATAN 2" },
+  { id: "p2-009", name: "Debora Kondo", department: "PENDAPATAN 2" },
+  { id: "p2-010", name: "Frangky T. Mone", department: "PENDAPATAN 2" },
+  { id: "p2-011", name: "Novyanti Arlyn Mau, SE (PPPK)", department: "PENDAPATAN 2" },
+  { id: "p2-012", name: "Celine Narumi Lomanledo, S.AB (PPPK)", department: "PENDAPATAN 2" },
+  { id: "p2-013", name: "Dessy I. Mone, S.Sos. (PPPK)", department: "PENDAPATAN 2" },
+  { id: "p2-014", name: "Yustinus Bani (PPPK)", department: "PENDAPATAN 2" },
+
+  // =======================
+  // SEKRETARIAT
+  // =======================
+  { id: "s-001", name: "Alexon Lumba, SH, M.Hum", department: "SEKRETARIAT" },
+  { id: "s-002", name: "Drs. Yoseph Florianus Napal, MM", department: "SEKRETARIAT" },
+  { id: "s-003", name: "Aprianus Aryantho Rondak, S.STP", department: "SEKRETARIAT" },
+  { id: "s-004", name: "Yulius B. Lico, S.Sos", department: "SEKRETARIAT" },
+  { id: "s-005", name: "Lori N. Sioh, S.Sos", department: "SEKRETARIAT" },
+  { id: "s-006", name: "Kristoforus R. Hayong, S.Kom., MM", department: "SEKRETARIAT" },
+  { id: "s-007", name: "Anselma Magdalena, S.Sos", department: "SEKRETARIAT" },
+  { id: "s-008", name: "Markus Radja", department: "SEKRETARIAT" },
+  { id: "s-009", name: "Melkisedek Koa, A.Md", department: "SEKRETARIAT" },
+  { id: "s-010", name: "Sandy A. J. L. Pranadjaya, SH", department: "SEKRETARIAT" },
+  { id: "s-011", name: "Vinsensius N. T. Atidja", department: "SEKRETARIAT" },
+  { id: "s-012", name: "Alfred Marlison Mule", department: "SEKRETARIAT" },
+  { id: "s-013", name: "Marselinus Tahu Tetik", department: "SEKRETARIAT" },
+  { id: "s-014", name: "Banni Bangngu Gada, SE", department: "SEKRETARIAT" },
+  { id: "s-015", name: "Anita Damaris Pello, SE", department: "SEKRETARIAT" },
+  { id: "s-016", name: "Sesilia Yosephina Pati, SE", department: "SEKRETARIAT" },
+  { id: "s-017", name: "Indah Jayanti, S.STP", department: "SEKRETARIAT" },
+  { id: "s-018", name: "Muhammad U. Ratu Loli", department: "SEKRETARIAT" },
+  { id: "s-019", name: "Nurmi Wahyuni, A.Md", department: "SEKRETARIAT" },
+  { id: "s-020", name: "Yefrid Nabuasa", department: "SEKRETARIAT" },
+  { id: "s-021", name: "Eugene Cornelis, SE", department: "SEKRETARIAT" },
+  { id: "s-022", name: "Dessy Nathaly Leo, SE", department: "SEKRETARIAT" },
+  { id: "s-023", name: "Muhammad I. H. Mokshen, S.Kom", department: "SEKRETARIAT" },
+  { id: "s-024", name: "Inge Putri Dimamesa", department: "SEKRETARIAT" },
+  { id: "s-025", name: "Lusiana Virgine C. Angkur, S.Kom", department: "SEKRETARIAT" },
+  { id: "s-026", name: "Donna R. J. Donni, S.Kom (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-027", name: "Mariano Djogo Lainurak, S.Fil (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-028", name: "Harvido Aquino Rubian, SH (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-029", name: "Aris E. O. Laikopan, S.AB (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-030", name: "Lidwina Maria Ellyana, SE (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-031", name: "Novalia I. Putri Acry, S.IP (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-032", name: "Maria Poncowati Handayani, SH (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-033", name: "Yuliana Lipat Purab, S.Kom (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-034", name: "Magdalena B. Tapobali, S.Tr.I.Kom (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-035", name: "Rina Juinda Laiskodat, SP (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-036", name: "Hasabya Eliaser Boling, S.Tr.M (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-037", name: "Leonardi M. N. Kulas, SE (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-038", name: "Dominggus Wila Huky, S.AB (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-039", name: "Joachim A. K. Ulin, SM (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-040", name: "Johstin Adeliana Metkono, A.Md (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-041", name: "Agnes Snaver Asan, A.Md (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-042", name: "Merriyanti S. Koba (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-043", name: "Octovianus A. Kaha (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-044", name: "Mario M. Aloysius Laurensius (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-045", name: "Ramona Samiun (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-046", name: "Nelson Peren (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-047", name: "Daud Telnoni (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-048", name: "Jacobus Tonael (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-049", name: "Christianus Ronge (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-050", name: "Adi Arifin Johan Tefa (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-051", name: "Inggriani F. Kila Saduk (PPPK)", department: "SEKRETARIAT" },
+  { id: "s-052", name: "Marselinus Nainoe (PPPK)", department: "SEKRETARIAT" },
+];
+
+export const departments: Department[] = [
+  "SEKRETARIAT",
+  "PENDAPATAN 1",
+  "PENDAPATAN 2",
+  "ASET 1",
+  "ASET 2",
+];
