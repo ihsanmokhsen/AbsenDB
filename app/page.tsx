@@ -11,6 +11,7 @@ import { MonthlyRecapView } from "@/components/monthly-recap-view";
 import { Button } from "@/components/ui/button";
 import { Monitor, HelpCircle } from "lucide-react";
 import Image from "next/image";
+import { jsPDF } from "jspdf";
 
 const ADMIN_NAMES = [
   "Aprianus Aryantho Rondak, S.STP",
@@ -365,6 +366,97 @@ export default function Home() {
     }
   };
 
+  const handleExportDailyPDF = () => {
+    if (!currentDate) return;
+
+    try {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      let yPosition = 15;
+
+      pdf.setFontSize(14);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("BPAD PROVINSI NTT", pageWidth / 2, yPosition, {
+        align: "center",
+      });
+      yPosition += 10;
+
+      pdf.setFontSize(12);
+      pdf.text("LAPORAN ABSENSI APEL PAGI", pageWidth / 2, yPosition, {
+        align: "center",
+      });
+      yPosition += 8;
+
+      const dateStr = formatDateKey(currentDate);
+      pdf.setFontSize(10);
+      pdf.setFont("helvetica", "normal");
+      pdf.text(`Hari/Tanggal: ${dateStr}`, pageWidth / 2, yPosition, {
+        align: "center",
+      });
+      yPosition += 10;
+
+      const splitText = pdf.splitTextToSize(reportText, pageWidth - 20);
+      pdf.setFontSize(11);
+      pdf.text(splitText, 10, yPosition);
+      yPosition += splitText.length * 5 + 10;
+
+      if (yPosition > pageHeight - 40) {
+        pdf.addPage();
+        yPosition = 15;
+      }
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(12);
+      pdf.text("RINCIAN PER BIDANG", 10, yPosition);
+      yPosition += 10;
+
+      for (const dept of departments) {
+        const deptEmployees = employees
+          .filter((e) => e.department === dept)
+          .filter((emp) => (attendanceData[emp.id] || "terlambat") !== "hadir");
+
+        if (deptEmployees.length === 0) continue;
+
+        if (yPosition > pageHeight - 50) {
+          pdf.addPage();
+          yPosition = 15;
+        }
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(11);
+        pdf.text(`${dept} (${deptEmployees.length} orang)`, 10, yPosition);
+        yPosition += 6;
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+
+        deptEmployees.forEach((emp) => {
+          if (yPosition > pageHeight - 15) {
+            pdf.addPage();
+            yPosition = 15;
+          }
+
+          const status = attendanceData[emp.id] || "terlambat";
+          const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+          pdf.text(`• ${emp.name} - ${statusText}`, 15, yPosition);
+          yPosition += 4;
+        });
+
+        yPosition += 3;
+      }
+
+      pdf.save(`Laporan_Absensi_${currentDate}.pdf`);
+    } catch {
+      window.alert("Gagal membuat PDF. Silakan coba lagi.");
+    }
+  };
+
   const stats = {
     total: employees.length,
     hadir: Object.values(attendanceData).filter((s) => s === "hadir").length || 0,
@@ -643,7 +735,14 @@ Keterangan :
             }}
             className="bg-blue-600 hover:bg-blue-700 text-white"
           >
-            Generate Laporan Apel
+            Generate Laporan
+          </Button>
+          <Button
+            onClick={handleExportDailyPDF}
+            variant="outline"
+            className="bg-transparent"
+          >
+            PDF Hari Ini
           </Button>
           <Button onClick={() => setIsDisplayMode(true)} variant="outline" className="ml-auto bg-transparent">
             <Monitor className="w-4 h-4 mr-2" />
@@ -777,9 +876,9 @@ Keterangan :
                   <div className="flex items-start gap-3">
                     <span className="text-blue-600 font-bold text-lg min-w-[32px]">3.</span>
                     <p className="text-slate-700 pt-1">
-                      <span className="font-semibold">Klik Generate Laporan.</span>
+                      <span className="font-semibold">Klik Generate Laporan untuk preview laporan hari ini.</span>
                       <br />
-                      Sistem akan membuat laporan resmi dengan rincian jumlah pegawai per status.
+                      Di dalam modal, Anda bisa lihat ringkasan status dan lanjut ke detail.
                     </p>
                   </div>
                 </div>
@@ -788,11 +887,9 @@ Keterangan :
                   <div className="flex items-start gap-3">
                     <span className="text-blue-600 font-bold text-lg min-w-[32px]">4.</span>
                     <p className="text-slate-700 pt-1">
-                      <span className="font-semibold">
-                        Layar Apel: gunakan untuk menyampaikan laporan ke pemimpin apel pagi,
-                      </span>
+                      <span className="font-semibold">Klik Simpan Data di Rekapan Harian untuk mengunci laporan hari ini.</span>
                       <br />
-                      agar dapat diteruskan ke pembina apel pagi.
+                      Setelah tersimpan, tanggal yang sama tidak bisa generate ulang kecuali rekap dihapus.
                     </p>
                   </div>
                 </div>
@@ -801,17 +898,28 @@ Keterangan :
                   <div className="flex items-start gap-3">
                     <span className="text-blue-600 font-bold text-lg min-w-[32px]">5.</span>
                     <p className="text-slate-700 pt-1">
-                      <span className="font-semibold">Jika butuh PDF, scroll ke bawah, klik Export PDF,</span>
+                      <span className="font-semibold">Gunakan tombol PDF Hari Ini untuk export laporan harian ke PDF.</span>
                       <br />
-                      lalu kirim ke Kasubag Kepegawaian.
+                      Gunakan tombol Layar Apel untuk tampilan presentasi saat apel.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-blue-600 font-bold text-lg min-w-[32px]">6.</span>
+                    <p className="text-slate-700 pt-1">
+                      <span className="font-semibold">Buka Rekapan Bulan untuk monitoring per pegawai dan per hari.</span>
+                      <br />
+                      Dari halaman ini Anda bisa export PDF dan Excel bulanan (termasuk rekap per bidang).
                     </p>
                   </div>
                 </div>
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
                   <p className="text-sm text-blue-900">
-                    <span className="font-semibold">Tip:</span> Data absensi langsung tersimpan ke database
-                    Supabase.
+                    <span className="font-semibold">Tip:</span> Data absensi auto-save ke database Supabase.
+                    Rekapan harian adalah snapshot resmi untuk laporan bulanan.
                   </p>
                 </div>
               </div>
