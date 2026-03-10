@@ -71,7 +71,7 @@ export default function Home() {
   const getInitialAttendance = useCallback(() => {
     const initial: Record<string, AttendanceStatus> = {};
     employees.forEach((emp) => {
-      initial[emp.id] = "terlambat";
+      initial[emp.id] = "hadir";
     });
     return initial;
   }, []);
@@ -229,14 +229,6 @@ export default function Home() {
       ...prev,
       [employeeId]: status,
     }));
-  };
-
-  const handleSetAllPresent = () => {
-    const updated: Record<string, AttendanceStatus> = {};
-    employees.forEach((emp) => {
-      updated[emp.id] = "hadir";
-    });
-    setAttendanceData(updated);
   };
 
   const handleReset = () => {
@@ -419,7 +411,7 @@ export default function Home() {
       for (const dept of departments) {
         const deptEmployees = employees
           .filter((e) => e.department === dept)
-          .filter((emp) => (attendanceData[emp.id] || "terlambat") !== "hadir");
+          .filter((emp) => (attendanceData[emp.id] || "hadir") !== "hadir");
 
         if (deptEmployees.length === 0) continue;
 
@@ -442,7 +434,7 @@ export default function Home() {
             yPosition = 15;
           }
 
-          const status = attendanceData[emp.id] || "terlambat";
+          const status = attendanceData[emp.id] || "hadir";
           const statusText = status.charAt(0).toUpperCase() + status.slice(1);
           pdf.text(`• ${emp.name} - ${statusText}`, 15, yPosition);
           yPosition += 4;
@@ -498,9 +490,9 @@ export default function Home() {
     .map((department) => {
       const employeesInDepartment = employees
         .filter((emp) => emp.department === department)
-        .filter((emp) => (attendanceData[emp.id] || "terlambat") !== "hadir")
+        .filter((emp) => (attendanceData[emp.id] || "hadir") !== "hadir")
         .map((emp) => {
-          const status = attendanceData[emp.id] || "terlambat";
+          const status = attendanceData[emp.id] || "hadir";
           return {
             name: emp.name,
             status: absentStatusLabels[status],
@@ -716,9 +708,6 @@ Keterangan :
         />
 
         <div className="sticky top-0 z-40 bg-gradient-to-b from-slate-50 to-white pb-4 mb-4 flex flex-wrap gap-3 pt-4 border-b border-slate-200">
-          <Button onClick={handleSetAllPresent} className="bg-green-600 hover:bg-green-700 text-white">
-            Set Semua Hadir
-          </Button>
           <Button onClick={handleReset} variant="outline" className="bg-transparent">
             Reset
           </Button>
@@ -855,7 +844,7 @@ Keterangan :
                     <p className="text-slate-700 pt-1">
                       <span className="font-semibold">Buka aplikasi, klik Reset.</span>
                       <br />
-                      Pastikan semua pegawai dalam status default (Terlambat) sebelum memulai absensi.
+                      Pastikan semua pegawai dalam status default (Hadir) sebelum memulai absensi.
                     </p>
                   </div>
                 </div>

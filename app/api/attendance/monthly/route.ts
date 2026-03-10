@@ -121,7 +121,7 @@ export async function GET(request: Request) {
       }
 
       for (const employee of employees) {
-        const status = records[employee.id] || "terlambat";
+        const status = records[employee.id] || "hadir";
         if (!STATUS_VALUES.includes(status)) continue;
 
         const target = recapMap[employee.id];

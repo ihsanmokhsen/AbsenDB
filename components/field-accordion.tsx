@@ -37,7 +37,7 @@ export function FieldAccordion({
 
   const stats = departmentEmployees.reduce(
     (acc, emp) => {
-      const status = attendanceData[emp.id] || "terlambat";
+      const status = attendanceData[emp.id] || "hadir";
       acc[status] = (acc[status] || 0) + 1;
       return acc;
     },
@@ -90,7 +90,7 @@ export function FieldAccordion({
                 key={employee.id}
                 employeeId={employee.id}
                 employeeName={employee.name}
-                status={attendanceData[employee.id] || "terlambat"}
+                status={attendanceData[employee.id] || "hadir"}
                 onStatusChange={onStatusChange}
               />
             ))}

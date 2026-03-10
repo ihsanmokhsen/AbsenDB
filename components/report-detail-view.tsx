@@ -148,7 +148,7 @@ export function ReportDetailView({
       for (const dept of departments) {
         const deptEmployees = employees
           .filter((e) => e.department === dept)
-          .filter((emp) => (attendanceData[emp.id] || "terlambat") !== "hadir");
+          .filter((emp) => (attendanceData[emp.id] || "hadir") !== "hadir");
 
         if (deptEmployees.length === 0) {
           continue;
@@ -173,7 +173,7 @@ export function ReportDetailView({
             yPosition = 15;
           }
 
-          const status = attendanceData[emp.id] || "terlambat";
+          const status = attendanceData[emp.id] || "hadir";
           const statusText =
             status.charAt(0).toUpperCase() + status.slice(1);
 
@@ -407,7 +407,7 @@ export function ReportDetailView({
                 (e) => e.department === dept
               );
               const absentDeptEmployees = deptEmployees.filter(
-                (emp) => (attendanceData[emp.id] || "terlambat") !== "hadir"
+                (emp) => (attendanceData[emp.id] || "hadir") !== "hadir"
               );
 
               if (absentDeptEmployees.length === 0) {
@@ -421,7 +421,7 @@ export function ReportDetailView({
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {absentDeptEmployees.map((emp) => {
-                      const status = attendanceData[emp.id] || "terlambat";
+                      const status = attendanceData[emp.id] || "hadir";
                       const statusLabel = {
                         hadir: "✓ Hadir",
                         sakit: "Sakit",

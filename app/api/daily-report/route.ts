@@ -29,7 +29,7 @@ async function requireAuth() {
 function buildDefaultRecords() {
   const records: Record<string, AttendanceStatus> = {};
   for (const employee of employees) {
-    records[employee.id] = "terlambat";
+    records[employee.id] = "hadir";
   }
   return records;
 }
@@ -72,9 +72,9 @@ function buildAbsentByDepartment(records: Record<string, AttendanceStatus>) {
     .map((department) => {
       const employeeRows = employees
         .filter((emp) => emp.department === department)
-        .filter((emp) => (records[emp.id] || "terlambat") !== "hadir")
+        .filter((emp) => (records[emp.id] || "hadir") !== "hadir")
         .map((emp) => {
-          const status = records[emp.id] || "terlambat";
+          const status = records[emp.id] || "hadir";
           return {
             name: emp.name,
             status: statusLabels[status],
