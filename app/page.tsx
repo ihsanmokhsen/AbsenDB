@@ -57,6 +57,8 @@ export default function Home() {
   const [adminPasswordInput, setAdminPasswordInput] = useState("");
   const [loggedAdminName, setLoggedAdminName] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
+  const [isLoginTransitioning, setIsLoginTransitioning] = useState(false);
   const [authReady, setAuthReady] = useState(false);
   const [isLoadingAttendance, setIsLoadingAttendance] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -224,6 +226,19 @@ export default function Home() {
     return () => window.clearTimeout(timer);
   }, [attendanceData, currentDate, loggedAdminName, isLoadingAttendance]);
 
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    if (isLoginTransitioning) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = previousOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isLoginTransitioning]);
+
   const handleStatusChange = (employeeId: string, status: AttendanceStatus) => {
     setAttendanceData((prev) => ({
       ...prev,
@@ -237,11 +252,15 @@ export default function Home() {
 
   const handleAdminLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmittingLogin || isLoginTransitioning) return;
 
     if (!selectedAdminName) {
       setLoginError("Pilih nama petugas terlebih dahulu.");
       return;
     }
+
+    let holdSubmittingState = false;
+    setIsSubmittingLogin(true);
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -260,11 +279,23 @@ export default function Home() {
         return;
       }
 
-      setLoggedAdminName(data.name || selectedAdminName);
       setLoginError("");
-      await loadAttendanceByDate(getLocalDateKey());
+      holdSubmittingState = true;
+      setIsLoginTransitioning(true);
+
+      const nextAdminName = data.name || selectedAdminName;
+      window.setTimeout(async () => {
+        setLoggedAdminName(nextAdminName);
+        await loadAttendanceByDate(getLocalDateKey());
+        setIsLoginTransitioning(false);
+        setIsSubmittingLogin(false);
+      }, 1200);
     } catch {
       setLoginError("Gagal terhubung ke server.");
+    } finally {
+      if (!holdSubmittingState) {
+        setIsSubmittingLogin(false);
+      }
     }
   };
 
@@ -570,6 +601,7 @@ Keterangan :
                 <select
                   value={selectedAdminName}
                   onChange={(e) => setSelectedAdminName(e.target.value)}
+                  disabled={isSubmittingLogin || isLoginTransitioning}
                   className="w-full h-10 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900"
                 >
                   <option value="">Pilih petugas</option>
@@ -587,6 +619,7 @@ Keterangan :
                   type="password"
                   value={adminPasswordInput}
                   onChange={(e) => setAdminPasswordInput(e.target.value)}
+                  disabled={isSubmittingLogin || isLoginTransitioning}
                   className="w-full h-10 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900"
                   placeholder="Masukkan password"
                 />
@@ -594,10 +627,37 @@ Keterangan :
 
               {loginError && <p className="text-sm text-red-600">{loginError}</p>}
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                Login
+              <Button
+                id="start-btn"
+                type="submit"
+                disabled={isSubmittingLogin || isLoginTransitioning}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-70"
+              >
+                {isSubmittingLogin || isLoginTransitioning ? "Memproses..." : "Mulai"}
               </Button>
             </form>
+          </div>
+        </div>
+        <div
+          id="page-loader"
+          className={isLoginTransitioning ? "active" : ""}
+          aria-hidden={!isLoginTransitioning}
+        >
+          <div className="loader-stack">
+            <Image
+              src="/logo-bpad.png"
+              alt="Logo aplikasi"
+              width={88}
+              height={88}
+              className="loader-logo"
+              priority
+            />
+            <div className="spinner" aria-hidden="true">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <span key={`domino-${index}`} />
+              ))}
+            </div>
+            <p className="loader-text">Memuat dashboard...</p>
           </div>
         </div>
       </main>
@@ -625,9 +685,9 @@ Keterangan :
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white p-4 md:p-8">
+    <main className="min-h-screen bg-gradient-to-b from-[#f4f8fb] via-[#eef6f7] to-[#f8fafc] p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-2xl border border-[#d9e6ed] bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:flex-row sm:items-start sm:justify-between md:p-5">
           <div className="flex items-center gap-4">
             <Image
               src="/logo-bpad.png"
@@ -672,7 +732,7 @@ Keterangan :
           <div className="flex flex-wrap gap-2 justify-end">
             <Button
               onClick={() => setShowMonthlyRecap(true)}
-              className="bg-orange-100 text-orange-800 hover:bg-orange-200 border border-orange-300"
+              className="border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100"
             >
               Rekapan Bulan
             </Button>
@@ -681,16 +741,24 @@ Keterangan :
                 onClick={handleDeleteDailyReport}
                 disabled={dailyReportActionLoading}
                 variant="outline"
-                className="bg-red-50 text-red-700 hover:bg-red-100 border-red-200"
+                className="border-red-200 bg-red-50 text-red-700 hover:bg-red-100"
               >
                 Hapus Rekapan
               </Button>
             )}
-            <Button onClick={() => setShowGuide(true)} variant="outline" className="bg-transparent">
+            <Button
+              onClick={() => setShowGuide(true)}
+              variant="outline"
+              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+            >
               <HelpCircle className="w-5 h-5 mr-2" />
               Panduan
             </Button>
-            <Button onClick={handleAdminLogout} variant="outline" className="bg-transparent">
+            <Button
+              onClick={handleAdminLogout}
+              variant="outline"
+              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+            >
               Logout
             </Button>
           </div>
@@ -707,8 +775,12 @@ Keterangan :
           tubel={stats.tubel}
         />
 
-        <div className="sticky top-0 z-40 bg-gradient-to-b from-slate-50 to-white pb-4 mb-4 flex flex-wrap gap-3 pt-4 border-b border-slate-200">
-          <Button onClick={handleReset} variant="outline" className="bg-transparent">
+        <div className="sticky top-0 z-40 mb-4 flex flex-wrap gap-3 rounded-xl border border-[#cfe0e8] bg-[#edf4f7]/95 px-3 pb-3 pt-3 backdrop-blur supports-[backdrop-filter]:bg-[#edf4f7]/85">
+          <Button
+            onClick={handleReset}
+            variant="outline"
+            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+          >
             Reset
           </Button>
           <Button
@@ -722,18 +794,22 @@ Keterangan :
               setDailyReportActionError("");
               setShowReportModal(true);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-teal-600 text-white hover:bg-teal-700"
           >
             Generate Laporan
           </Button>
           <Button
             onClick={handleExportDailyPDF}
             variant="outline"
-            className="bg-transparent"
+            className="border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
           >
             PDF Hari Ini
           </Button>
-          <Button onClick={() => setIsDisplayMode(true)} variant="outline" className="ml-auto bg-transparent">
+          <Button
+            onClick={() => setIsDisplayMode(true)}
+            variant="outline"
+            className="ml-auto border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+          >
             <Monitor className="w-4 h-4 mr-2" />
             Layar Apel
           </Button>
