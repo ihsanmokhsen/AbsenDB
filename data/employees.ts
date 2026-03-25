@@ -46,6 +46,7 @@ export const employees: Employee[] = [
   { id: "a2-011", name: "Andreas H. Belang, S.Kom (PPPK)", department: "ASET 2" },
   { id: "a2-012", name: "Alfred Malaikari, SH (PPPK)", department: "ASET 2" },
   { id: "a2-013", name: "Anselmus D. Sanga, S.Kom (PPPK)", department: "ASET 2" },
+  { id: "a2-013b", name: "Fransiskus Alexander Pawe, S.IP (PPPK)", department: "ASET 2" },
   { id: "a2-014", name: "Astrid Katty B. Koreh (PPPK)", department: "ASET 2" },
   { id: "a2-015", name: "Yahya Libing (PPPK)", department: "ASET 2" },
   { id: "a2-016", name: "Marianus Ribu Kelen (PPPK)", department: "ASET 2" },
@@ -100,12 +101,13 @@ export const employees: Employee[] = [
   // =======================
   // SEKRETARIAT
   // =======================
-  { id: "s-001", name: "Alexon Lumba, SH, M.Hum", department: "SEKRETARIAT" },
+  { id: "s-001", name: "Johny Ericson Ataupah, SP., MM", department: "SEKRETARIAT" },
   { id: "s-002", name: "Drs. Yoseph Florianus Napal, MM", department: "SEKRETARIAT" },
   { id: "s-003", name: "Aprianus Aryantho Rondak, S.STP", department: "SEKRETARIAT" },
   { id: "s-004", name: "Yulius B. Lico, S.Sos", department: "SEKRETARIAT" },
   { id: "s-005", name: "Lori N. Sioh, S.Sos", department: "SEKRETARIAT" },
   { id: "s-006", name: "Kristoforus R. Hayong, S.Kom., MM", department: "SEKRETARIAT" },
+  { id: "s-006b", name: "Januarius J. B. Banase, S.Sos", department: "SEKRETARIAT" },
   { id: "s-007", name: "Anselma Magdalena, S.Sos", department: "SEKRETARIAT" },
   { id: "s-008", name: "Markus Radja", department: "SEKRETARIAT" },
   { id: "s-009", name: "Melkisedek Koa, A.Md", department: "SEKRETARIAT" },
